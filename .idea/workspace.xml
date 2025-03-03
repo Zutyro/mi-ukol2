@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cf3a5663-bae8-41bc-a596-c7d1eceafd76" name="Changes" comment="Added project files.">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="cf3a5663-bae8-41bc-a596-c7d1eceafd76" name="Changes" comment="Added all five test functions and created hill climber function template.">
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -74,7 +72,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1741001197885</updated>
-      <workItem from="1741001199347" duration="2168000" />
+      <workItem from="1741001199347" duration="2425000" />
     </task>
     <task id="LOCAL-00001" summary="Added project files.">
       <option name="closed" value="true" />
@@ -84,7 +82,15 @@
       <option name="project" value="LOCAL" />
       <updated>1741001321088</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Added all five test functions and created hill climber function template.">
+      <option name="closed" value="true" />
+      <created>1741003543346</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1741003543346</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -92,9 +98,10 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Added project files." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added project files." />
+    <MESSAGE value="Added all five test functions and created hill climber function template." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added all five test functions and created hill climber function template." />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/mi_ukol2$main.coverage" NAME="main Coverage Results" MODIFIED="1741003316830" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/mi_ukol2$main.coverage" NAME="main Coverage Results" MODIFIED="1741003479235" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

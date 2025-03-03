@@ -5,12 +5,12 @@ import random
 def test_domain(point_values, domain):
     for x in point_values:
         if x < domain[0] or x > domain[1]:
-            return True
-    return False
+            return False
+    return True
 
 def sphere(point_values):
     domain = [-5.12,5.12]
-    if test_domain(point_values, domain):
+    if not test_domain(point_values, domain):
         return -99999
     sum1 = 0
     for x in point_values:
@@ -21,7 +21,7 @@ def sphere(point_values):
 def trid(point_values):
     dimensions = len(point_values)
     domain = [-dimensions**2,dimensions**2]
-    if test_domain(point_values, domain):
+    if not test_domain(point_values, domain):
         return -99999
     sum1, sum2 = 0, 0
     for j, x in enumerate(point_values):
@@ -33,7 +33,7 @@ def trid(point_values):
 
 def schwefel(point_values):
     domain = [-500,500]
-    if test_domain(point_values, domain):
+    if not test_domain(point_values, domain):
         return -99999
     sum1 = 0
     for x in point_values:
@@ -43,7 +43,7 @@ def schwefel(point_values):
 
 def dixon(point_values):
     domain = [-10,10]
-    if test_domain(point_values, domain):
+    if not test_domain(point_values, domain):
         return -99999
     sum1 = 0
     for j, x in enumerate(point_values):
@@ -55,7 +55,7 @@ def dixon(point_values):
 
 def rosenbrock(point_values):
     domain = [-2.048,2.048]
-    if test_domain(point_values, domain):
+    if not test_domain(point_values, domain):
         return -99999
     sum1 = 0
     for j, x in enumerate(point_values):
