@@ -9,9 +9,6 @@ def test_domain(point_values, domain):
     return True
 
 def sphere(point_values):
-    domain = [-5.12,5.12]
-    if not test_domain(point_values, domain):
-        return -99999
     sum1 = 0
     for x in point_values:
         sum1 = sum1 + (x ** 2)
@@ -19,10 +16,6 @@ def sphere(point_values):
     return y
 
 def trid(point_values):
-    dimensions = len(point_values)
-    domain = [-dimensions**2,dimensions**2]
-    if not test_domain(point_values, domain):
-        return -99999
     sum1, sum2 = 0, 0
     for j, x in enumerate(point_values):
         sum1 = sum1 + (x - 1) ** 2
@@ -32,19 +25,13 @@ def trid(point_values):
     return y
 
 def schwefel(point_values):
-    domain = [-500,500]
-    if not test_domain(point_values, domain):
-        return -99999
     sum1 = 0
     for x in point_values:
         sum1 = sum1 + x * np.sin(np.sqrt(np.abs(x)))
     y = 418.9829 * len(point_values) - sum1
     return y
 
-def dixon(point_values):
-    domain = [-10,10]
-    if not test_domain(point_values, domain):
-        return -99999
+def dixonprice(point_values):
     sum1 = 0
     for j, x in enumerate(point_values):
         if j == 0:
@@ -54,9 +41,6 @@ def dixon(point_values):
     return y
 
 def rosenbrock(point_values):
-    domain = [-2.048,2.048]
-    if not test_domain(point_values, domain):
-        return -99999
     sum1 = 0
     for j, x in enumerate(point_values):
         if j == len(point_values) - 1:
@@ -66,10 +50,38 @@ def rosenbrock(point_values):
     return y
 
 
-def hill_climber(max_iterations, dimensions, population, standard_deviation):
-    print('hello')
+def hill_climber(max_iterations, dimensions: int, population, standard_deviation, function_type):
+    domain = []
+    match function_type:
+        case 0:
+            print('sphere')
+            test_function = sphere
+            domain = [-5.12,5.12]
+        case 1:
+            print('trid')
+            test_function = trid
+            domain = [-dimensions**2,dimensions**2]
+        case 2:
+            print('schwefel')
+            test_function = schwefel
+            domain = [-500,500]
+        case 3:
+            print('dixonprice')
+            test_function = dixonprice
+            domain = [-10,10]
+        case 4:
+            print('rosenbrock')
+            test_function = rosenbrock
+            domain = [-2.048,2.048]
+        case _:
+            raise ValueError('Function_type outside of range. Accepts values between 0 and 4')
+    center_point = [random.uniform(domain[0], domain[1]) for i in range(dimensions)]
+    print(center_point)
+    print(test_function(center_point))
+
 
 
 
 if __name__=='__main__':
-    hill_climber(20,2,3,3)
+    hill_climber(20,2,3,3,0)
+    print(sphere([10,10]))
