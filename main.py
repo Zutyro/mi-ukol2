@@ -70,4 +70,6 @@ def hill_climber(max_iterations, dimensions, population, standard_deviation):
     print('hello')
 
 
-hill_climber(20,2,3,3)
+
+if __name__=='__main__':
+    hill_climber(20,2,3,3)
