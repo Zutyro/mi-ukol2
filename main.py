@@ -1,3 +1,5 @@
+from multiprocessing.managers import convert_to_error
+
 import numpy as np
 import matplotlib.pyplot as plt
 import random
@@ -76,12 +78,55 @@ def hill_climber(max_iterations, dimensions: int, population, standard_deviation
         case _:
             raise ValueError('Function_type outside of range. Accepts values between 0 and 4')
     center_point = [random.uniform(domain[0], domain[1]) for i in range(dimensions)]
-    print(center_point)
-    print(test_function(center_point))
+    best_result = 0
+    best_point = 0
+    convergence_points = []
+    convergence_results = []
+    climb_results = []
+    climb_points = []
+    for i in range(max_iterations):
+        for x in range(population):
+            coords = [random.gauss(center_point[j],standard_deviation) for j in range(dimensions)]
+            # outofdomain = False
+            # for coord in coords:
+            #     if coord not in domain:
+            #         outofdomain = True
+            # if outofdomain:
+            #     continue
+            if best_result == 0:
+                best_result = test_function(coords)
+                best_point = coords
+            if test_function(coords) < best_result:
+                best_result = test_function(coords)
+                best_point = coords
+        center_point = best_point
+        climb_points.append(best_point)
+        climb_results.append(best_result)
+        if len(convergence_points) == 0:
+            convergence_points.append(best_point)
+            convergence_results.append(best_result)
+        if convergence_results[len(convergence_points)-1] > best_result:
+            convergence_points.append(best_point)
+            convergence_results.append(best_result)
+    if dimensions == 2:
+        climb_points = np.array(climb_points).T
+        xx,yy = np.meshgrid(np.linspace(domain[0],domain[1],500), np.linspace(domain[0],domain[1],500))
+        zz = test_function((xx,yy))
+        fig = plt.figure()
+        # ax = fig.add_subplot(111, projection='3d')
+        # ax.plot_surface(xx, yy, zz)
+        plt.pcolor(xx, yy, zz)
+        plt.scatter(climb_points[0],climb_points[1],color='Red')
+        # ax.view_init(azim=0, elev=90)
+        plt.show()
+    plt.step(convergence_results,range(len(convergence_results)))
+    plt.show()
+    print(f'Best result:{convergence_results[len(convergence_results)-1]} in {convergence_points[len(convergence_points)-1]}')
+
+
 
 
 
 
 if __name__=='__main__':
-    hill_climber(20,2,3,3,0)
-    print(sphere([10,10]))
+    hill_climber(200,2,5,20,2)
