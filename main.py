@@ -1,4 +1,3 @@
-from multiprocessing.managers import convert_to_error
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -51,33 +50,45 @@ def rosenbrock(point_values):
     y = sum1
     return y
 
+def generate_coords(domain, center_point, standard_deviation, dimensions):
+    coords = []
+    for j in range(dimensions):
+        while True:
+            generated = random.gauss(center_point[j], standard_deviation)
+            if domain[0] <= generated <= domain[1]:
+                coords.append(generated)
+                break
+    return coords
 
-def hill_climber(max_iterations, dimensions: int, population, standard_deviation, function_type):
+def search(max_iterations: int, dimensions: int, population: int, standard_deviation: float, function_type: int, search_alg='hc'):
+    if search_alg != 'hc' and search_alg != 'ls':
+        raise ValueError('search_alg can only be hc or ls')
     domain = []
     match function_type:
         case 0:
-            print('sphere')
+            function_name = 'sphere'
             test_function = sphere
             domain = [-5.12,5.12]
         case 1:
-            print('trid')
+            function_name ='trid'
             test_function = trid
             domain = [-dimensions**2,dimensions**2]
         case 2:
-            print('schwefel')
+            function_name ='schwefel'
             test_function = schwefel
             domain = [-500,500]
         case 3:
-            print('dixonprice')
+            function_name ='dixonprice'
             test_function = dixonprice
             domain = [-10,10]
         case 4:
-            print('rosenbrock')
+            function_name ='rosenbrock'
             test_function = rosenbrock
             domain = [-2.048,2.048]
         case _:
             raise ValueError('Function_type outside of range. Accepts values between 0 and 4')
     center_point = [random.uniform(domain[0], domain[1]) for i in range(dimensions)]
+    center_result = test_function(center_point)
     best_result = 0
     best_point = 0
     convergence_points = []
@@ -85,19 +96,19 @@ def hill_climber(max_iterations, dimensions: int, population, standard_deviation
     climb_results = []
     climb_points = []
     for i in range(max_iterations):
+        best_result = 0
+        best_point = 0
         for x in range(population):
-            coords = [random.gauss(center_point[j],standard_deviation) for j in range(dimensions)]
-            # outofdomain = False
-            # for coord in coords:
-            #     if coord not in domain:
-            #         outofdomain = True
-            # if outofdomain:
-            #     continue
-            if best_result == 0:
-                best_result = test_function(coords)
+            coords = generate_coords(domain, center_point, standard_deviation, dimensions)
+            local_test = test_function(coords)
+            if search_alg == 'hc' and best_result == 0:
+                best_result = local_test
                 best_point = coords
-            if test_function(coords) < best_result:
-                best_result = test_function(coords)
+            if search_alg == 'ls' and best_result == 0:
+                best_result = center_result
+                best_point = center_point
+            if local_test < best_result:
+                best_result = local_test
                 best_point = coords
         center_point = best_point
         climb_points.append(best_point)
@@ -108,18 +119,26 @@ def hill_climber(max_iterations, dimensions: int, population, standard_deviation
         if convergence_results[len(convergence_points)-1] > best_result:
             convergence_points.append(best_point)
             convergence_results.append(best_result)
+    fig, ax = 0,0
     if dimensions == 2:
+        fig, ax = plt.subplots(3)
         climb_points = np.array(climb_points).T
         xx,yy = np.meshgrid(np.linspace(domain[0],domain[1],500), np.linspace(domain[0],domain[1],500))
         zz = test_function((xx,yy))
-        fig = plt.figure()
-        # ax = fig.add_subplot(111, projection='3d')
-        # ax.plot_surface(xx, yy, zz)
-        plt.pcolor(xx, yy, zz)
-        plt.scatter(climb_points[0],climb_points[1],color='Red')
-        # ax.view_init(azim=0, elev=90)
-        plt.show()
-    plt.step(convergence_results,range(len(convergence_results)))
+
+        ax[2].pcolor(xx, yy, zz)
+        ax[2].scatter(climb_points[0],climb_points[1],color='Red')
+    else:
+        fig, ax = plt.subplots(2)
+    step = ax[1].step(convergence_results,range(len(convergence_results)))
+    fig.set_figheight(8)
+    fig.set_figwidth(8)
+    data = [['Minimum:',convergence_results[len(convergence_results)-1]],['Parametry:', convergence_points[len(convergence_points)-1]]]
+    table = ax[0].table(cellText=data, colWidths = [0.15, 0.25], loc='center')
+    table.set_fontsize(14)
+    table.scale(3, 3)
+    ax[0].axis('off')
+    fig.suptitle(f'Search alg:{search_alg.upper()}\nDimensions:{dimensions}, Population:{population}, STD:{standard_deviation},\nTest function:{function_name}')
     plt.show()
     print(f'Best result:{convergence_results[len(convergence_results)-1]} in {convergence_points[len(convergence_points)-1]}')
 
@@ -129,4 +148,4 @@ def hill_climber(max_iterations, dimensions: int, population, standard_deviation
 
 
 if __name__=='__main__':
-    hill_climber(200,2,5,20,2)
+    search(20, 2, 5, 1, 0, 'hc')
